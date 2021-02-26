@@ -1,3 +1,5 @@
+import "./styles/index.scss"
+
 const age: number = 99;
 
 const obj = {
@@ -20,3 +22,4 @@ function woof(noise: any) {
 
 woof(obj)
 woof(obj2)
+
