@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 //const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 let mode = 'development';
-let target = "web";
+let target = 'web';
 // const plugins = [
 //   new CleanWebpackPlugin(),
 //   new MiniCssExtractPlugin(),
@@ -28,11 +28,18 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
     mode: mode,
     target: target,
-    //entry: './src/index.ts',
+    entry: './src/index.tsx',
     // output: {
     //     filename: 'bundle.js',
     //     path: path.resolve(__dirname, )
     // },
+    output: {
+        filename: 'main.js',
+        path: path.resolve(__dirname, 'dist'),
+        //publicPath: './dist'
+        publicPath: ''
+    },
+ 
 
     devtool: 'source-map',
     //devtool: false,
@@ -50,19 +57,47 @@ module.exports = {
                 test: /\.(s[ac]|c)ss$/i,
                 use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
             },
+            // {
+            //     test: /\.ts$/,
+            //     exclude: /node-modules/,
+            //     use: {
+            //         loader: 'ts-loader',
+            //     },
+            // },
             {
-                test: /\.ts$/,
-                exclude: /node-modules/,
-                use: {
-                    loader: 'ts-loader',
-                },
+                test: /\.ts(x)?$/,
+                loader: 'ts-loader',
+                exclude: /node_modules/,
             },
+            // {
+            //     test: /\.svg$/,
+            //     use: 'file-loader',
+            // },
+            // {
+            //     test: /\.png$/,
+            //     use: [
+            //         {
+            //             loader: 'url-loader',
+            //             options: {
+            //                 mimetype: 'image/png',
+            //             },
+            //         },
+            //     ],
+            // },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: [
+                  {
+                    loader: 'file-loader',
+                  },
+                ],
+              },            
         ],
     },
 
     plugins: [new MiniCssExtractPlugin()],
 
     resolve: {
-        extensions: ['.ts', '.js'],
+        extensions: ['.tsx', '.ts', '.js'],
     },
 };
