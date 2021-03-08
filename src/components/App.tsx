@@ -5,17 +5,18 @@ import { ControlPanel } from "./ControlPanel";
 import "./app.scss";
 
 type SpinItem = "7" | "3bar" | "2bar" | "1bar" | "cherry" | "blank";
+
 //type SpinItemsSet = [SpinItem, SpinItem, SpinItem]; // Tuple try?
 type SpinItemsSet = SpinItem[];
 
-export type Spinner = {
+export type Reel = {
     items: SpinItemsSet;
     loading: boolean,
     index: number;
     shownItem: SpinItem;
 }
 
-const initialSpinners: Spinner[] = [
+const initialReels: Reel[] = [
     {
         items: [],
         loading: false,
@@ -34,7 +35,6 @@ const initialSpinners: Spinner[] = [
         index: 0,
         shownItem: "blank",
     },
-
 ];
 
 // should be extracted to helpers.js
@@ -47,19 +47,19 @@ const App = () => {
     const [bet, setBet] = useState(0);
     const [won, setWon] = useState(0);
     const [finalPayout, setFinalPayout] = useState(false);
-    const [spinners, setSpinners] = useState(initialSpinners);
+    const [reels, setSpinners] = useState(initialReels);
 
     const sourceSpins = ["7", "3bar", "2bar", "2bar", "1bar", "1bar", "1bar", "cherry"];
     const blank = "blank";
 
     useEffect(() => {
-        createSpinnerItems(spinners[0].items);
-        createSpinnerItems(spinners[1].items);
-        createSpinnerItems(spinners[2].items);
+        initReelItems(reels[0].items);
+        initReelItems(reels[1].items);
+        initReelItems(reels[2].items);
     }, []);
 
     // Fills 'arr' array by removing a random element from the source array.
-    const createSpinnerItems = (arr: SpinItemsSet) => {
+    const initReelItems = (arr: SpinItemsSet) => {
         let reduceArr = sourceSpins.slice() as SpinItemsSet;
 
         arr.push(blank);
@@ -83,7 +83,7 @@ const App = () => {
 
         return new Promise<void>((resolve, reject) => {
             setTimeout(() => {
-                let copy = [...spinners];
+                let copy = [...reels];
 
                 copy[spinIndex].loading = false;
 
@@ -95,7 +95,7 @@ const App = () => {
     };
 
     const rollSpinners = () => {
-        let copy = [...spinners];
+        let copy = [...reels];
 
         copy.forEach((spinner) => {
             let rnd = getRandomInt(17);
@@ -159,7 +159,7 @@ const App = () => {
 
     const payout = (bet: number) => {
         let snapshot: SpinItem[] = [];
-        spinners.forEach(spinner => { snapshot.push(spinner.shownItem)});
+        reels.forEach(reel => { snapshot.push(reel.shownItem)});
         
         let wonAmount = calculateWon(snapshot);
 
@@ -176,13 +176,13 @@ const App = () => {
     return (
         <div className="app">
             <div className="welcome">
-                Welcome to the Virtual Slot Machine
+                Welcome to the Virtual Slot Machine v2.0
             </div>
             <div className="d-flex justify-center">
                 <div className="machine">
                     <div>
                         <Header credits={credits} bet={bet} won={won} />
-                        <Display spinners={spinners} />
+                        <Display reels={reels} />
                     </div>
                     <div>
                         <ControlPanel
