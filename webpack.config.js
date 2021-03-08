@@ -29,20 +29,13 @@ module.exports = {
     mode: mode,
     target: target,
     entry: './src/index.tsx',
-    // output: {
-    //     filename: 'bundle.js',
-    //     path: path.resolve(__dirname, )
-    // },
     output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
-        //publicPath: './dist'
-        publicPath: ''
+        // publicPath: '',
     },
- 
 
-    devtool: 'source-map',
-    //devtool: false,
+    devtool: 'source-map', // false
 
     devServer: {
         contentBase: './dist',
@@ -52,46 +45,32 @@ module.exports = {
     module: {
         rules: [
             {
-                // test: /\.css$/i,
-                // test: /\.s?css$/i,
                 test: /\.(s[ac]|c)ss$/i,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'sass-loader'],
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: '',
+                        },
+                    },
+                    'css-loader',
+                    'postcss-loader',
+                    'sass-loader',
+                ],
             },
-            // {
-            //     test: /\.ts$/,
-            //     exclude: /node-modules/,
-            //     use: {
-            //         loader: 'ts-loader',
-            //     },
-            // },
             {
                 test: /\.ts(x)?$/,
                 loader: 'ts-loader',
                 exclude: /node_modules/,
             },
-            // {
-            //     test: /\.svg$/,
-            //     use: 'file-loader',
-            // },
-            // {
-            //     test: /\.png$/,
-            //     use: [
-            //         {
-            //             loader: 'url-loader',
-            //             options: {
-            //                 mimetype: 'image/png',
-            //             },
-            //         },
-            //     ],
-            // },
             {
                 test: /\.(png|jpe?g|gif)$/i,
                 use: [
-                  {
-                    loader: 'file-loader',
-                  },
+                    {
+                        loader: 'file-loader',
+                    },
                 ],
-              },            
+            },
         ],
     },
 
