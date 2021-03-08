@@ -6,7 +6,6 @@ import "./app.scss";
 
 type SpinItem = "7" | "3bar" | "2bar" | "1bar" | "cherry" | "blank";
 
-//type SpinItemsSet = [SpinItem, SpinItem, SpinItem]; // Tuple try?
 type SpinItemsSet = SpinItem[];
 
 export type Reel = {
@@ -119,8 +118,8 @@ const App = () => {
         rollReels();
 
         // async for loop
-        // for (const spinner of copy) {
-        //     let res = await stopSpinner(spinner);
+        // for (const reel of copy) {
+        //     let res = await stopReel(reel);
         // }
 
         await stopReel(0);

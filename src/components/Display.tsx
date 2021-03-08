@@ -15,7 +15,6 @@ export const Display = (props: IProps) => {
     return (
         <div className="spins">
             {reels &&
-                // TODO: to delete , but CHECK for 'key' properly!
                 reels.map((el, index) => {
                     return <div key={index} className={`image image-${el.loading ? 'loading' : el.shownItem}`}></div>;
                 })}
