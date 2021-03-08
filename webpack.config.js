@@ -29,10 +29,11 @@ module.exports = {
     mode: mode,
     target: target,
     entry: './src/index.tsx',
+    
     output: {
         filename: 'main.js',
         path: path.resolve(__dirname, 'dist'),
-        // publicPath: '',
+        assetModuleFilename: 'images/[hash][ext][query]'
     },
 
     devtool: 'source-map', // false
@@ -64,12 +65,18 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
+                // test: /\.(png|jpe?g|gif)$/i,
+                // use: [
+                //     {
+                //         loader: 'file-loader',
+                //     },
+                // ],
                 test: /\.(png|jpe?g|gif)$/i,
-                use: [
-                    {
-                        loader: 'file-loader',
-                    },
-                ],
+                //loader: 'file-loader',
+                type: 'asset/resource'
+                // options: {
+                //     outputPath: 'images',
+                // },
             },
         ],
     },
