@@ -158,7 +158,6 @@ const App = () => {
     }
 
     const payout = (bet: number) => {
-        // let snapshot = []; // TODO: to delete
         let snapshot: SpinItem[] = [];
         spinners.forEach(spinner => { snapshot.push(spinner.shownItem)});
         
@@ -188,11 +187,8 @@ const App = () => {
                     <div>
                         <ControlPanel
                             credits={credits}
-                            //setCredits={setCredits} // TODO: to delete any comment
                             bet={bet}
                             setBet={setBet}
-                            //won={won}
-                            //setWon={setWon}
                             finalPayout={finalPayout}
                             setFinalPayout={setFinalPayout}
                             runSpin={runSpin}
