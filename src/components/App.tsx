@@ -47,7 +47,7 @@ const App = () => {
     const [bet, setBet] = useState(0);
     const [won, setWon] = useState(0);
     const [finalPayout, setFinalPayout] = useState(false);
-    const [reels, setSpinners] = useState(initialReels);
+    const [reels, setReels] = useState(initialReels);
 
     const sourceSpins = ["7", "3bar", "2bar", "2bar", "1bar", "1bar", "1bar", "cherry"];
     const blank = "blank";
@@ -78,7 +78,7 @@ const App = () => {
         }
     };
 
-    const stopSpinner = async (spinIndex: number) => {
+    const stopReel = async (spinIndex: number) => {
         const randomDelay = getRandomInt(2) * 500 + 500;
 
         return new Promise<void>((resolve, reject) => {
@@ -87,27 +87,27 @@ const App = () => {
 
                 copy[spinIndex].loading = false;
 
-                setSpinners(copy);
+                setReels(copy);
 
                 resolve();
             }, randomDelay);
         });
     };
 
-    const rollSpinners = () => {
+    const rollReels = () => {
         let copy = [...reels];
 
-        copy.forEach((spinner) => {
+        copy.forEach((reel) => {
             let rnd = getRandomInt(17);
 
-            let itemName = spinner.items[rnd];
+            let itemName = reel.items[rnd];
 
-            spinner.index = rnd;
-            spinner.shownItem = itemName;
-            spinner.loading = true;
+            reel.index = rnd;
+            reel.shownItem = itemName;
+            reel.loading = true;
         });
 
-        setSpinners(copy);
+        setReels(copy);
     }
 
     const runSpin = async (bet: number) => {
@@ -116,16 +116,16 @@ const App = () => {
         // disabling control block only
         setFinalPayout(true); 
 
-        rollSpinners();
+        rollReels();
 
         // async for loop
         // for (const spinner of copy) {
         //     let res = await stopSpinner(spinner);
         // }
 
-        await stopSpinner(0);
-        await stopSpinner(1);
-        await stopSpinner(2);
+        await stopReel(0);
+        await stopReel(1);
+        await stopReel(2);
 
         payout(bet);
         
@@ -158,7 +158,7 @@ const App = () => {
     }
 
     const payout = (bet: number) => {
-        let snapshot: SpinItem[] = [];
+        let snapshot: SpinItemsSet = [];
         reels.forEach(reel => { snapshot.push(reel.shownItem)});
         
         let wonAmount = calculateWon(snapshot);
