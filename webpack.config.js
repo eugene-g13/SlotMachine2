@@ -1,23 +1,26 @@
 const path = require('path');
-//const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-let mode = 'development';
-let target = 'web';
+const isProd = process.env.NODE_ENV === 'production';
+const isDev = !isProd;
 
-const plugins = [
-  new MiniCssExtractPlugin(),
-  new HtmlWebpackPlugin({
-    template: "./src/index.html",
-  }),
-];
+// let mode = 'development';
+// let target = 'web';
 
-if (process.env.NODE_ENV === 'production') {
-    mode = 'production';
-    // Temporary workaround for 'browserslist' bug that is being patched in the near future
-    target = 'browserslist';
-}
+// const plugins = [
+//     new MiniCssExtractPlugin(),
+//     new HtmlWebpackPlugin({
+//         template: './src/index.html',
+//     }),
+// ];
+
+// if (process.env.NODE_ENV === 'production') {
+//     mode = 'production';
+//     // Temporary workaround for 'browserslist' bug that is being patched in the near future
+//     target = 'browserslist';
+// }
 
 // if (process.env.SERVE) {
 //   // We only want React Hot Reloading in serve mode
@@ -25,8 +28,8 @@ if (process.env.NODE_ENV === 'production') {
 // }
 
 module.exports = {
-    mode: mode,
-    target: target,
+    mode: isProd ? "production" : "development",
+    target: isDev ? "web" : "browserslist", // react-refresh plugin not working bug fix.
     entry: './src/index.tsx',
 
     output: {
@@ -36,11 +39,12 @@ module.exports = {
         clean: true,
     },
 
-    devtool: 'source-map', // false
+    devtool: isDev ? 'source-map' : false,
 
     devServer: {
         contentBase: './dist',
         hot: true,
+        port: 3000
     },
 
     module: {
@@ -59,10 +63,25 @@ module.exports = {
                     'sass-loader',
                 ],
             },
+            // {
+            //     test: /\.ts(x)?$/,
+            //     loader: 'ts-loader',
+            //     exclude: /node_modules/,
+            // },
             {
                 test: /\.ts(x)?$/,
-                loader: 'ts-loader',
-                exclude: /node_modules/,
+                //exclude: /node_modules/,
+                //loader: 'ts-loader',
+                use: [
+                    isDev && {
+                        loader: 'babel-loader',
+                        options: { plugins: ['react-refresh/babel'] },
+                    },
+                    {
+                        loader: 'ts-loader',
+                        options: { transpileOnly: true },
+                    },
+                ].filter(Boolean),
             },
             {
                 test: /\.(png|jpe?g|gif)$/i,
@@ -74,7 +93,11 @@ module.exports = {
         ],
     },
 
-    plugins: plugins,
+    plugins: [
+        isDev && new ReactRefreshWebpackPlugin(),
+        new MiniCssExtractPlugin(),
+        new HtmlWebpackPlugin({ template: './src/index.html' }),
+    ].filter(Boolean),
 
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
