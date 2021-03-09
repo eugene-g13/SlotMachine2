@@ -6,15 +6,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const isProd = process.env.NODE_ENV === 'production';
 const isDev = !isProd;
 
-// let mode = 'development';
-// let target = 'web';
-
-// const plugins = [
-//     new MiniCssExtractPlugin(),
-//     new HtmlWebpackPlugin({
-//         template: './src/index.html',
-//     }),
-// ];
+const plugins = [
+    new MiniCssExtractPlugin(),
+    new HtmlWebpackPlugin({
+        template: './src/index.html',
+    }),
+];
 
 // if (process.env.NODE_ENV === 'production') {
 //     mode = 'production';
@@ -22,14 +19,28 @@ const isDev = !isProd;
 //     target = 'browserslist';
 // }
 
-// if (process.env.SERVE) {
-//   // We only want React Hot Reloading in serve mode
-//   plugins.push(new ReactRefreshWebpackPlugin());
-// }
+if (process.env.SERVE) {
+    // We only want React Hot Reloading in serve mode
+    plugins.push(new ReactRefreshWebpackPlugin());
+}
+
+const tsxLoaders = [];
+
+if (isDev) {
+    tsxLoaders.push({ loader: 'babel-loader', options: { plugins: ['react-refresh/babel'] } });
+}
+
+if (isProd)
+    tsxLoaders.push({ loader: 'ts-loader', options: { configFile: 'tsconfig.prod.json' } });
+else
+    tsxLoaders.push({ loader: 'ts-loader' });
+
+
+// console.log("!!!!! LOADERS: ", tsxLoaders)
 
 module.exports = {
-    mode: isProd ? "production" : "development",
-    target: isDev ? "web" : "browserslist", // react-refresh plugin not working bug fix.
+    mode: isProd ? 'production' : 'development',
+    target: isDev ? 'web' : 'browserslist', // react-refresh plugin not working bug fix.
     entry: './src/index.tsx',
 
     output: {
@@ -44,7 +55,7 @@ module.exports = {
     devServer: {
         contentBase: './dist',
         hot: true,
-        port: 3000
+        port: 3000,
     },
 
     module: {
@@ -72,16 +83,18 @@ module.exports = {
                 test: /\.ts(x)?$/,
                 //exclude: /node_modules/,
                 //loader: 'ts-loader',
-                use: [
-                    isDev && {
-                        loader: 'babel-loader',
-                        options: { plugins: ['react-refresh/babel'] },
-                    },
-                    {
-                        loader: 'ts-loader',
-                        options: { transpileOnly: true },
-                    },
-                ].filter(Boolean),
+
+                // use: [
+                //     isDev && {
+                //         loader: 'babel-loader',
+                //         options: { plugins: ['react-refresh/babel'] },
+                //     },
+                //     {
+                //         loader: 'ts-loader',
+                //         //options: { transpileOnly: true },
+                //     },
+                // ].filter(Boolean),
+                use: tsxLoaders,
             },
             {
                 test: /\.(png|jpe?g|gif)$/i,
@@ -93,11 +106,12 @@ module.exports = {
         ],
     },
 
-    plugins: [
-        isDev && new ReactRefreshWebpackPlugin(),
-        new MiniCssExtractPlugin(),
-        new HtmlWebpackPlugin({ template: './src/index.html' }),
-    ].filter(Boolean),
+    plugins: plugins,
+    // plugins: [
+    //     isDev && new ReactRefreshWebpackPlugin(),
+    //     new MiniCssExtractPlugin(),
+    //     new HtmlWebpackPlugin({ template: './src/index.html' }),
+    // ].filter(Boolean),
 
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
