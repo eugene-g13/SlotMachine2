@@ -32,8 +32,18 @@ module.exports = {
         // "@typescript-eslint/no-unused-vars": "error",
         // "no-unused-vars": "off"
         //'no-const-assign': 'warn',
-        "indent": ["error", 4],
+        indent: 'off', // indent: ['error', 4],
+        'react/jsx-indent': ['error', 4],
+        'react/jsx-indent-props': ['error', 4],
+        '@typescript-eslint/indent': ['error', 4],
+
+        'linebreak-style': ['error', 'windows'],
+
         'react-hooks/rules-of-hooks': 'error',
         'react-hooks/exhaustive-deps': 'warn',
+        'destructuring-assignment': 'off',
+
+        'arrow-parens': 'as-needed',
+        'react/button-has-type': 'off',
     },
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+
 interface IProps {
     credits: number;
     bet: number;
@@ -8,7 +9,7 @@ interface IProps {
     runSpin: (bet: number) => void;
 }
 
-export const ControlPanel = (props: IProps): JSX.Element => {
+const ControlPanel = (props: IProps): JSX.Element => {
     const { credits, bet, setBet, finalPayout, setFinalPayout, runSpin } = props;
 
     const handleMaximizeBet = () => {
@@ -33,6 +34,7 @@ export const ControlPanel = (props: IProps): JSX.Element => {
             <fieldset disabled={finalPayout}>
                 <div className="d-flex flex-column">
                     <button
+                        type="button"
                         onClick={() => {
                             bet < 3 ? setBet(bet + 1) : null;
                         }}
@@ -56,3 +58,5 @@ export const ControlPanel = (props: IProps): JSX.Element => {
         </form>
     );
 };
+
+export default ControlPanel;

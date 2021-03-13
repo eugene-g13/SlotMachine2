@@ -5,7 +5,7 @@ interface IProps {
     reels: Reel[];
 }
 
-export const Display = (props: IProps): JSX.Element => {
+const Display = (props: IProps): JSX.Element => {
     const [reels, setReels] = useState(props.reels);
 
     useEffect(() => {
@@ -21,3 +21,5 @@ export const Display = (props: IProps): JSX.Element => {
         </div>
     );
 };
+
+export default Display;

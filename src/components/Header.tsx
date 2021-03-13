@@ -6,7 +6,7 @@ interface IProps {
     won: number;
 }
 
-export const Header = ({ credits, bet, won }: IProps): JSX.Element => {
+const Header = ({ credits, bet, won }: IProps): JSX.Element => {
     const classes = won ? 'color-green' : '';
 
     return (
@@ -19,3 +19,5 @@ export const Header = ({ credits, bet, won }: IProps): JSX.Element => {
         </div>
     );
 };
+
+export default Header;

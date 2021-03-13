@@ -32,11 +32,8 @@ if (isDev) {
     tsxLoaders.push({ loader: 'babel-loader', options: { plugins: ['react-refresh/babel'] } });
 }
 
-if (isProd)
-    tsxLoaders.push({ loader: 'ts-loader', options: { configFile: 'tsconfig.prod.json' } });
-else
-    tsxLoaders.push({ loader: 'ts-loader' });
-
+if (isProd) tsxLoaders.push({ loader: 'ts-loader', options: { configFile: 'tsconfig.prod.json' } });
+else tsxLoaders.push({ loader: 'ts-loader' });
 
 // console.log("!!!!! LOADERS: ", tsxLoaders)
 
