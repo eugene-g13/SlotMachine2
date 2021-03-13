@@ -11,7 +11,7 @@ interface IProps {
 
 export const ControlPanel = ({ credits, bet, setBet, finalPayout, setFinalPayout, runSpin }: IProps) => {
     const handleMaximizeBet = () => {
-        let maxBet = credits < 3 ? credits : 3;
+        const maxBet = credits < 3 ? credits : 3;
 
         setBet(maxBet);
 

@@ -1,38 +1,38 @@
-import React, { useState, useEffect } from "react";
-import { Header } from "./Header";
-import { Display } from "./Display";
-import { ControlPanel } from "./ControlPanel";
-import "./app.scss";
+import React, { useState, useEffect } from 'react';
+import { Header } from './Header';
+import { Display } from './Display';
+import { ControlPanel } from './ControlPanel';
+import './app.scss';
 
-type SpinItem = "7" | "3bar" | "2bar" | "1bar" | "cherry" | "blank";
+type SpinItem = '7' | '3bar' | '2bar' | '1bar' | 'cherry' | 'blank';
 
 type SpinItemsSet = SpinItem[];
 
 export type Reel = {
     items: SpinItemsSet;
-    loading: boolean,
+    loading: boolean;
     index: number;
     shownItem: SpinItem;
-}
+};
 
 const initialReels: Reel[] = [
     {
         items: [],
         loading: false,
         index: 0,
-        shownItem: "blank",
+        shownItem: 'blank',
     },
     {
         items: [],
         loading: false,
         index: 0,
-        shownItem: "blank",
+        shownItem: 'blank',
     },
     {
         items: [],
         loading: false,
         index: 0,
-        shownItem: "blank",
+        shownItem: 'blank',
     },
 ];
 
@@ -48,8 +48,8 @@ const App = () => {
     const [finalPayout, setFinalPayout] = useState(false);
     const [reels, setReels] = useState(initialReels);
 
-    const sourceSpins = ["7", "3bar", "2bar", "2bar", "1bar", "1bar", "1bar", "cherry"];
-    const blank = "blank";
+    const sourceSpins = ['7', '3bar', '2bar', '2bar', '1bar', '1bar', '1bar', 'cherry'];
+    const blank = 'blank';
 
     useEffect(() => {
         initReelItems(reels[0].items);
@@ -59,14 +59,14 @@ const App = () => {
 
     // Fills 'arr' array by removing a random element from the source array.
     const initReelItems = (arr: SpinItemsSet) => {
-        let reduceArr = sourceSpins.slice() as SpinItemsSet;
+        const reduceArr = sourceSpins.slice() as SpinItemsSet;
 
         arr.push(blank);
 
-        var i = reduceArr.length;
+        let i = reduceArr.length;
 
         while (i > 0) {
-            let rnd = getRandomInt(i); 
+            const rnd = getRandomInt(i);
 
             arr.push(reduceArr[rnd]);
             arr.push(blank);
@@ -82,7 +82,7 @@ const App = () => {
 
         return new Promise<void>((resolve, reject) => {
             setTimeout(() => {
-                let copy = [...reels];
+                const copy = [...reels];
 
                 copy[spinIndex].loading = false;
 
@@ -94,12 +94,12 @@ const App = () => {
     };
 
     const rollReels = () => {
-        let copy = [...reels];
+        const copy = [...reels];
 
-        copy.forEach((reel) => {
-            let rnd = getRandomInt(17);
+        copy.forEach(reel => {
+            const rnd = getRandomInt(17);
 
-            let itemName = reel.items[rnd];
+            const itemName = reel.items[rnd];
 
             reel.index = rnd;
             reel.shownItem = itemName;
@@ -107,13 +107,13 @@ const App = () => {
         });
 
         setReels(copy);
-    }
+    };
 
     const runSpin = async (bet: number) => {
         setCredits(credits - bet);
 
         // disabling control block only
-        setFinalPayout(true); 
+        setFinalPayout(true);
 
         rollReels();
 
@@ -127,45 +127,46 @@ const App = () => {
         await stopReel(2);
 
         payout(bet);
-        
+
         setBet(0);
 
         setFinalPayout(false);
     };
 
     const calculateWon = (snapshot: SpinItemsSet) => {
-        // For Each Cherry: 
-        const length = snapshot.filter(el => el === "cherry").length;
+        // For Each Cherry:
+        const length = snapshot.filter(el => el === 'cherry').length;
         if (length) return 2 * length;
 
-        // Bar, Bar, Bar: 
-        if (snapshot.filter(el => el === "1bar").length === 3) return 25;
+        // Bar, Bar, Bar:
+        if (snapshot.filter(el => el === '1bar').length === 3) return 25;
 
-        // Double Bar, Double Bar, Double Bar: 
-        if (snapshot.filter(el => el === "2bar").length === 3) return 50;
+        // Double Bar, Double Bar, Double Bar:
+        if (snapshot.filter(el => el === '2bar').length === 3) return 50;
 
         // Triple Bar, Triple Bar, Triple Bar:
-        if (snapshot.filter(el => el === "3bar").length === 3) return 100;
+        if (snapshot.filter(el => el === '3bar').length === 3) return 100;
 
         // Any Bar, Any Bar, Any bar:
-        if (snapshot.filter(el => el.includes("bar")).length === 3) return 5;
+        if (snapshot.filter(el => el.includes('bar')).length === 3) return 5;
 
         // 7, 7, 7:
-        if (snapshot.filter(el => el === "7").length === 3) return 300;
+        if (snapshot.filter(el => el === '7').length === 3) return 300;
 
         return 0;
-    }
+    };
 
     const payout = (bet: number) => {
-        let snapshot: SpinItemsSet = [];
-        reels.forEach(reel => { snapshot.push(reel.shownItem)});
-        
+        const snapshot: SpinItemsSet = [];
+        reels.forEach(reel => {
+            snapshot.push(reel.shownItem);
+        });
+
         let wonAmount = calculateWon(snapshot);
 
         wonAmount = wonAmount * bet;
 
-        if (snapshot.filter(el => el === "7").length === 3)
-            wonAmount += 600;
+        if (snapshot.filter(el => el === '7').length === 3) wonAmount += 600;
 
         setWon(wonAmount);
 
@@ -174,9 +175,7 @@ const App = () => {
 
     return (
         <div className="app">
-            <div className="welcome">
-                Welcome to the Virtual Slot Machine v2.0
-            </div>
+            <div className="welcome">Welcome to the Virtual Slot Machine v2.0</div>
             <div className="d-flex justify-center">
                 <div className="machine">
                     <div>
