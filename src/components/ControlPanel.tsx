@@ -8,7 +8,9 @@ interface IProps {
     runSpin: (bet: number) => void;
 }
 
-export const ControlPanel = ({ credits, bet, setBet, finalPayout, setFinalPayout, runSpin }: IProps) => {
+export const ControlPanel = (props : IProps): JSX.Element => {
+    const { credits, bet, setBet, finalPayout, setFinalPayout, runSpin } = props;
+
     const handleMaximizeBet = () => {
         const maxBet = credits < 3 ? credits : 3;
 

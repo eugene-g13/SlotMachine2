@@ -6,7 +6,7 @@ interface IProps {
     won: number;
 }
 
-export const Header = ({ credits, bet, won }: IProps) => {
+export const Header = ({ credits, bet, won }: IProps): JSX.Element => {
     const classes = won ? 'color-green' : '';
 
     return (

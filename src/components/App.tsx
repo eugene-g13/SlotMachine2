@@ -41,7 +41,7 @@ const getRandomInt = (max: number) => {
     return Math.floor(Math.random() * Math.floor(max));
 };
 
-const App = () => {
+const App = (): JSX.Element => {
     const [credits, setCredits] = useState(100);
     const [bet, setBet] = useState(0);
     const [won, setWon] = useState(0);
