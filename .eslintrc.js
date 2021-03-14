@@ -51,6 +51,10 @@ module.exports = {
         'operator-linebreak': 0,
         'arrow-body-style': 0,
         'react/jsx-one-expression-per-line': 0,
+        'no-plusplus': 0,
+        'no-shadow': 'off',
+        '@typescript-eslint/no-shadow': 'off',
+
         // "sonarjs/cognitive-complexity": "error",
         // "sonarjs/no-identical-expressions": "error"
         // "sonarjs/cognitive-complexity": ["warn", 4],

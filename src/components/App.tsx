@@ -50,12 +50,17 @@ const App = (): JSX.Element => {
 
     const sourceSpins = ['7', '3bar', '2bar', '2bar', '1bar', '1bar', '1bar', 'cherry'];
     const blank = 'blank';
+    let shadowReels;
 
     useEffect(() => {
         initReelItems(reels[0].items);
         initReelItems(reels[1].items);
         initReelItems(reels[2].items);
     }, []);
+
+    useEffect(() => {
+        console.log('App updated');
+    });
 
     // Fills 'arr' array by removing a random element from the source array.
     const initReelItems = (arr: SpinItemsSet) => {
@@ -82,9 +87,22 @@ const App = (): JSX.Element => {
 
         return new Promise<void>((resolve, reject) => {
             setTimeout(() => {
-                const copy = [...reels];
+                // const copy = [...reels];
 
-                copy[spinIndex].loading = false;
+                // copy[spinIndex].loading = false;
+
+                // setReels(copy);
+
+                const copy = reels.map((reel, index) => {
+                    return {
+                        items: [...reel.items],
+                        index: reel.index,
+                        shownItem: reel.shownItem,
+                        loading: index === spinIndex ? false : reel.loading,
+                    } as Reel;
+                });
+
+                console.log('stopReel, copy: ', copy);
 
                 setReels(copy);
 
@@ -94,19 +112,37 @@ const App = (): JSX.Element => {
     };
 
     const rollReels = () => {
-        const copy = [...reels];
+        // // worked!
+        // const copy = [...reels];
 
-        copy.forEach(reel => {
+        // copy.forEach(reel => {
+        //     const rnd = getRandomInt(17);
+        //     const itemName = reel.items[rnd];
+
+        //     reel.index = rnd;
+        //     reel.shownItem = itemName;
+        //     reel.loading = true;
+        // });
+
+        // setReels(copy);
+
+        console.log('reels: ', reels);
+
+        const rolledReels = reels.map(reel => {
             const rnd = getRandomInt(17);
-
             const itemName = reel.items[rnd];
 
-            reel.index = rnd;
-            reel.shownItem = itemName;
-            reel.loading = true;
+            return {
+                items: [...reel.items],
+                index: rnd,
+                shownItem: itemName,
+                loading: true,
+            } as Reel;
         });
 
-        setReels(copy);
+        console.log('rolledReel: ', rolledReels);
+
+        setReels(rolledReels);
     };
 
     const runSpin = async (bet: number) => {
@@ -135,7 +171,7 @@ const App = (): JSX.Element => {
 
     const calculateWon = (snapshot: SpinItemsSet) => {
         // For Each Cherry:
-        const length = snapshot.filter(el => el === 'cherry').length;
+        const { length } = snapshot.filter(el => el === 'cherry');
         if (length) return 2 * length;
 
         // Bar, Bar, Bar:
