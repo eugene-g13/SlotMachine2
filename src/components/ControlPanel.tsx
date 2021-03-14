@@ -9,7 +9,7 @@ interface IProps {
     runSpin: (bet: number) => void;
 }
 
-const ControlPanel = (props: IProps): JSX.Element => {
+const ControlPanel: React.FC<IProps> = props => {
     const { credits, bet, setBet, finalPayout, setFinalPayout, runSpin } = props;
 
     const handleMaximizeBet = () => {
@@ -45,7 +45,7 @@ const ControlPanel = (props: IProps): JSX.Element => {
                     <button onClick={handleSpin} disabled={bet === 0}>
                         Spin
                     </button>
-                    <div style={{ height: '50px' }}></div>
+                    <div style={{ height: '50px' }} />
                     <button
                         onClick={() => {
                             setFinalPayout(true);

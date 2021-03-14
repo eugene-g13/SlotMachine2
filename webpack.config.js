@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 /* eslint @typescript-eslint/no-var-requires: "off" */
 
 const path = require('path');
@@ -80,8 +81,8 @@ module.exports = {
             // },
             {
                 test: /\.ts(x)?$/,
-                //exclude: /node_modules/,
-                //loader: 'ts-loader',
+                // exclude: /node_modules/,
+                // loader: 'ts-loader',
 
                 // use: [
                 //     isDev && {

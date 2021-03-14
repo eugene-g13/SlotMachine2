@@ -14,6 +14,7 @@ module.exports = {
         //"plugin:react-hooks/recommended",
         //"plugin:@typescript-eslint/eslint-recommended",
         'plugin:@typescript-eslint/recommended',
+        'plugin:sonarjs/recommended',
         'plugin:import/errors',
         'plugin:import/warnings',
         'plugin:import/typescript',
@@ -27,7 +28,7 @@ module.exports = {
         sourceType: 'module',
         project: './tsconfig.json',
     },
-    plugins: ['react', '@typescript-eslint', 'react-hooks', 'import', 'promise'],
+    plugins: ['react', '@typescript-eslint', 'react-hooks', 'sonarjs', 'import', 'promise'],
     rules: {
         // "@typescript-eslint/no-unused-vars": "error",
         // "no-unused-vars": "off"
@@ -43,7 +44,16 @@ module.exports = {
         'react-hooks/exhaustive-deps': 'warn',
         'destructuring-assignment': 'off',
 
-        'arrow-parens': 'as-needed',
+        'arrow-parens': ['error', 'as-needed'],
         'react/button-has-type': 'off',
+        'react/prop-types': 0,
+        'object-curly-newline': 'off',
+        'operator-linebreak': 0,
+        'arrow-body-style': 0,
+        'react/jsx-one-expression-per-line': 0,
+        // "sonarjs/cognitive-complexity": "error",
+        // "sonarjs/no-identical-expressions": "error"
+        // "sonarjs/cognitive-complexity": ["warn", 4],
+        // "max-lines-per-function": ["warn", 30]
     },
 };

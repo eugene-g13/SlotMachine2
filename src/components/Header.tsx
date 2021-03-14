@@ -6,7 +6,7 @@ interface IProps {
     won: number;
 }
 
-const Header = ({ credits, bet, won }: IProps): JSX.Element => {
+const Header: React.FC<IProps> = ({ credits, bet, won }) => {
     const classes = won ? 'color-green' : '';
 
     return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Header } from './Header';
-import { Display } from './Display';
-import { ControlPanel } from './ControlPanel';
+import Header from './Header';
+import Display from './Display';
+import ControlPanel from './ControlPanel';
 import './app.scss';
 
 type SpinItem = '7' | '3bar' | '2bar' | '1bar' | 'cherry' | 'blank';
@@ -164,7 +164,7 @@ const App = (): JSX.Element => {
 
         let wonAmount = calculateWon(snapshot);
 
-        wonAmount = wonAmount * bet;
+        wonAmount *= bet;
 
         if (snapshot.filter(el => el === '7').length === 3) wonAmount += 600;
 
